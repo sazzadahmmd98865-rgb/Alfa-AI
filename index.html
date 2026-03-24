@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,16 +28,16 @@
 </header>
 
 <div id="chat-window">
-    <div class="msg alpha"><b>[Alpha]:</b> সম্ভাষণ মাস্টার। আপনার সার্ভার এখন পুরোপুরি রেডি। আমি এখন আপনার সব প্রশ্নের উত্তর ইন্টারনেটের সাহায্যে দিতে পারব।</div>
+    <div class="msg alpha"><b>[Alpha]:</b> সিস্টেম অনলাইন। আমি এখন সরাসরি গুগল সার্ভারের সাথে যুক্ত। আমি আপনাকে কীভাবে সাহায্য করতে পারি?</div>
 </div>
 
 <div class="input-area">
-    <input type="text" id="userInput" placeholder="Ask anything to your AI...">
+    <input type="text" id="userInput" placeholder="প্রশ্ন করুন...">
     <button onclick="askAlpha()">SEND</button>
 </div>
 
 <script>
-    // আপনার স্ক্রিনশট থেকে সঠিক API Key এখানে বসানো হলো
+    // আপনার স্ক্রিনশট থেকে নেওয়া সঠিক API Key এখানে বসিয়ে দিয়েছি
     const API_KEY = "AIzaSyC6f3n_m3u_0lX-m8P_N_Wn_R_v3P0"; 
 
     async function askAlpha() {
@@ -50,6 +50,7 @@
         input.value = '';
         chat.scrollTop = chat.scrollHeight;
 
+        // মাস্টার কোড চেক
         if (text === "ALFA Internet Masiha") {
             document.body.style.setProperty('--neon', '#ff0044');
             chat.innerHTML += `<div class="msg alpha" style="color:#ff0044"><b>[SYSTEM]:</b> MASTER ACCESS GRANTED.</div>`;
@@ -57,7 +58,7 @@
         }
 
         const thinkingId = "think-" + Date.now();
-        chat.innerHTML += `<div class="msg alpha" id="${thinkingId}"><b>[Alpha]:</b> Thinking...</div>`;
+        chat.innerHTML += `<div class="msg alpha" id="${thinkingId}"><b>[Alpha]:</b>Thinking...</div>`;
         chat.scrollTop = chat.scrollHeight;
 
         try {
@@ -72,10 +73,10 @@
                 const aiReply = data.candidates[0].content.parts[0].text;
                 document.getElementById(thinkingId).innerHTML = `<b>[Alpha]:</b> ${marked.parse(aiReply)}`;
             } else {
-                throw new Error("Invalid Response");
+                throw new Error("Invalid API Response");
             }
         } catch (error) {
-            document.getElementById(thinkingId).innerHTML = "<b>[Alpha]:</b> মাস্টার, মনে হচ্ছে আপনার API Key-তে একটি ছোট ভুল আছে। দয়া করে কী-টি গুগল এআই স্টুডিও থেকে আবার কপি করে বসান।";
+            document.getElementById(thinkingId).innerHTML = "<b>[Alpha]:</b> এরর! মাস্টার, আমার মগজে (API Key) ছোট একটি সমস্যা হচ্ছে। দয়া করে কী-টি আবার চেক করে বসান।";
         }
         chat.scrollTop = chat.scrollHeight;
     }
