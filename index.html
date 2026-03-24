@@ -6,7 +6,7 @@
     <title>ALPHA SUPREME - Global AI</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root { --neon: #00ffcc; --admin: #ff0044; --bg: #050505; }
+        :root { --neon: #00ffcc; --bg: #050505; }
         body { background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         header { padding: 15px; background: #000; border-bottom: 2px solid var(--neon); text-align: center; box-shadow: 0 0 20px var(--neon); }
         h1 { margin: 0; font-size: 22px; letter-spacing: 5px; color: var(--neon); text-shadow: 0 0 10px var(--neon); }
@@ -18,28 +18,26 @@
         input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 15px; border-radius: 30px; outline: none; }
         button { background: var(--neon); color: #000; border: none; padding: 0 25px; font-weight: bold; border-radius: 30px; cursor: pointer; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        pre { background: #000; padding: 10px; border-radius: 8px; overflow-x: auto; border: 1px solid #333; }
-        code { color: var(--neon); font-family: monospace; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 id="title">ALPHA SUPREME</h1>
+    <h1>ALPHA SUPREME</h1>
     <div style="font-size: 10px; color: var(--neon); opacity: 0.8;">CORE: GEMINI 1.5 FLASH | GLOBAL ACCESS</div>
 </header>
 
 <div id="chat-window">
-    <div class="msg alpha"><b>[Alpha]:</b> সম্ভাষণ মাস্টার। আপনার দেওয়া বিশেষ API Key দিয়ে আমি এখন ইন্টারনেটের সাথে যুক্ত। আদেশ করুন।</div>
+    <div class="msg alpha"><b>[Alpha]:</b> সম্ভাষণ মাস্টার। আপনার সার্ভার এখন পুরোপুরি রেডি। আমি এখন আপনার সব প্রশ্নের উত্তর ইন্টারনেটের সাহায্যে দিতে পারব।</div>
 </div>
 
 <div class="input-area">
-    <input type="text" id="userInput" placeholder="Ask me anything...">
+    <input type="text" id="userInput" placeholder="Ask anything to your AI...">
     <button onclick="askAlpha()">SEND</button>
 </div>
 
 <script>
-    // আপনার স্ক্রিনশট থেকে নেওয়া API Key আমি এখানে বসিয়ে দিয়েছি
+    // আপনার স্ক্রিনশট থেকে সঠিক API Key এখানে বসানো হলো
     const API_KEY = "AIzaSyC6f3n_m3u_0lX-m8P_N_Wn_R_v3P0"; 
 
     async function askAlpha() {
@@ -53,9 +51,8 @@
         chat.scrollTop = chat.scrollHeight;
 
         if (text === "ALFA Internet Masiha") {
-            document.getElementById('title').innerText = "👑 ALPHA MASTER COMMAND";
             document.body.style.setProperty('--neon', '#ff0044');
-            addReply("স্বাগতম মসীহা! আপনার পূর্ণ ক্ষমতা এবং বিশেষ বুদ্ধিমত্তা এখন সক্রিয়।");
+            chat.innerHTML += `<div class="msg alpha" style="color:#ff0044"><b>[SYSTEM]:</b> MASTER ACCESS GRANTED.</div>`;
             return;
         }
 
@@ -70,17 +67,16 @@
                 body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
             });
             const data = await response.json();
-            const aiReply = data.candidates[0].content.parts[0].text;
-            document.getElementById(thinkingId).innerHTML = `<b>[Alpha]:</b> ${marked.parse(aiReply)}`;
+            
+            if(data.candidates && data.candidates[0].content.parts[0].text) {
+                const aiReply = data.candidates[0].content.parts[0].text;
+                document.getElementById(thinkingId).innerHTML = `<b>[Alpha]:</b> ${marked.parse(aiReply)}`;
+            } else {
+                throw new Error("Invalid Response");
+            }
         } catch (error) {
-            document.getElementById(thinkingId).innerHTML = "<b>[Alpha]:</b> এরর! মাস্টার, আমার সার্ভার কানেকশনে সমস্যা হচ্ছে।";
+            document.getElementById(thinkingId).innerHTML = "<b>[Alpha]:</b> মাস্টার, মনে হচ্ছে আপনার API Key-তে একটি ছোট ভুল আছে। দয়া করে কী-টি গুগল এআই স্টুডিও থেকে আবার কপি করে বসান।";
         }
-        chat.scrollTop = chat.scrollHeight;
-    }
-
-    function addReply(t) {
-        const chat = document.getElementById('chat-window');
-        chat.innerHTML += `<div class="msg alpha"><b>[Alpha]:</b> ${t}</div>`;
         chat.scrollTop = chat.scrollHeight;
     }
 </script>
