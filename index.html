@@ -1,74 +1,96 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha AI - The Global Intelligence</title>
+    <title>ALPHA SUPREME - Super Intelligence</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
-        :root { --main: #00ffcc; --bg: #050505; }
-        body { background: var(--bg); color: var(--main); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        header { padding: 20px; border-bottom: 2px solid var(--main); text-align: center; box-shadow: 0 0 20px var(--main); background: #000; }
-        #chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 18px; border-radius: 15px; max-width: 80%; line-height: 1.6; font-size: 16px; border: 1px solid #333; }
-        .alpha { align-self: flex-start; background: #001a1a; border-color: var(--main); box-shadow: 0 0 10px #004444; }
-        .user { align-self: flex-end; background: #111; border-color: #555; color: #fff; }
-        .input-area { padding: 20px; background: #000; display: flex; gap: 10px; border-top: 1px solid #222; }
-        input { flex: 1; background: #111; border: 1px solid var(--main); color: #fff; padding: 12px; border-radius: 8px; outline: none; }
-        button { background: var(--main); color: #000; border: none; padding: 10px 25px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        .master-mode { border-color: #ff0000 !important; color: #ff0000 !important; box-shadow: 0 0 20px #ff0000 !important; }
+        :root { --neon: #00ffcc; --admin: #ff0044; --glass: rgba(255, 255, 255, 0.05); }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        
+        header { padding: 15px; background: #000; border-bottom: 2px solid var(--neon); text-align: center; box-shadow: 0 0 20px var(--neon); z-index: 10; }
+        h1 { margin: 0; font-size: 22px; letter-spacing: 5px; color: var(--neon); text-shadow: 0 0 10px var(--neon); }
+
+        #chat-window { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; background: radial-gradient(circle at top, #111 0%, #050505 100%); }
+        .msg { padding: 15px 20px; border-radius: 15px; max-width: 85%; font-size: 16px; line-height: 1.6; border: 1px solid var(--glass); animation: fadeIn 0.3s ease; backdrop-filter: blur(5px); }
+        .alpha { align-self: flex-start; background: var(--glass); border-left: 5px solid var(--neon); color: #e0e0e0; }
+        .user { align-self: flex-end; background: var(--neon); color: #000; font-weight: bold; box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3); }
+
+        .input-area { padding: 20px; background: #000; display: flex; gap: 10px; border-top: 1px solid #222; position: relative; }
+        input { flex: 1; background: #111; border: 1px solid #333; color: #fff; padding: 15px 25px; border-radius: 30px; outline: none; font-size: 16px; transition: 0.3s; }
+        input:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 255, 204, 0.2); }
+        button { background: var(--neon); color: #000; border: none; padding: 0 30px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        pre { background: #000; padding: 10px; border-radius: 5px; overflow-x: auto; border: 1px solid #333; }
+        code { color: var(--neon); font-family: 'Courier New', monospace; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 id="title">ALPHA AI SYSTEM</h1>
-    <small id="status">ACCESS: PUBLIC</small>
+    <h1 id="title">ALPHA SUPREME</h1>
+    <div id="status" style="font-size: 10px; color: var(--neon); letter-spacing: 2px;">NEURAL INTERFACE: CONNECTED</div>
 </header>
 
-<div id="chat-box" id="chatBox">
-    <div class="msg alpha">স্বাগতম! আমি আলফা। আমি আপনাকে কীভাবে সাহায্য করতে পারি?</div>
+<div id="chat-window">
+    <div class="msg alpha"><b>[Alpha]:</b> সম্ভাষণ মাস্টার। আমি আলফা সুপ্রিম। আমি গুগলের জেমিনি মগজ ব্যবহার করে আপনাকে সেবা দিতে প্রস্তুত। যেকোনো ভাষা বা বিষয় নিয়ে প্রশ্ন করুন।</div>
 </div>
 
 <div class="input-area">
-    <input type="text" id="userInput" placeholder="আপনার প্রশ্ন বা মাস্টার কোড দিন...">
+    <input type="text" id="userInput" placeholder="Ask anything to your AI...">
     <button onclick="askAlpha()">SEND</button>
 </div>
 
 <script>
-    let isMaster = false;
+    // গুরুত্বপূর্ণ: এখানে আপনার Gemini API Key দিতে হবে
+    const API_KEY = "YOUR_GEMINI_API_KEY_HERE"; 
 
-    function askAlpha() {
+    async function askAlpha() {
         const input = document.getElementById('userInput');
-        const chat = document.getElementById('chat-box');
+        const chat = document.getElementById('chat-window');
         const text = input.value.trim();
-        
-        if(!text) return;
+        if (!text) return;
 
         chat.innerHTML += `<div class="msg user">${text}</div>`;
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
 
         if (text === "ALFA Internet Masiha") {
-            isMaster = true;
-            document.getElementById('title').innerText = "👑 ALPHA MASTER PANEL";
-            document.getElementById('title').classList.add('master-mode');
-            document.getElementById('status').innerText = "STATUS: ADMIN ACTIVATED";
-            document.getElementById('status').style.color = "red";
-            addReply("স্বাগতম মসীহা! আপনার বিশেষ ক্ষমতা এবং স্মার্ট ইন্টেলিজেন্স সক্রিয় করা হয়েছে। আদেশ করুন।");
-        } else {
-            setTimeout(() => {
-                let reply = isMaster ? "জি মাস্টার, আমি আপনার জন্য তথ্য বিশ্লেষণ করছি..." : "আমি আপনার প্রশ্নটি নিয়ে কাজ করছি। একটু অপেক্ষা করুন।";
-                addReply(reply);
-            }, 800);
+            setAdmin();
+            return;
         }
-        input.value = '';
+
+        const thinkingId = "think-" + Date.now();
+        chat.innerHTML += `<div class="msg alpha" id="${thinkingId}"><b>[Alpha]:</b> Thinking...</div>`;
+        chat.scrollTop = chat.scrollHeight;
+
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
+            });
+            const data = await response.json();
+            const aiReply = data.candidates[0].content.parts[0].text;
+            
+            document.getElementById(thinkingId).innerHTML = `<b>[Alpha]:</b> ${marked.parse(aiReply)}`;
+        } catch (error) {
+            document.getElementById(thinkingId).innerHTML = "<b>[Alpha]:</b> কানেকশন এরর! মাস্টার, দয়া করে আপনার API Key চেক করুন।";
+        }
         chat.scrollTop = chat.scrollHeight;
     }
 
-    function addReply(txt) {
-        const chat = document.getElementById('chat-box');
-        chat.innerHTML += `<div class="msg alpha ${isMaster ? 'master-mode' : ''}"><b>[Alpha]:</b> ${txt}</div>`;
+    function setAdmin() {
+        document.getElementById('title').innerText = "👑 ALPHA MASTER COMMAND";
+        document.body.style.setProperty('--neon', '#ff0044');
+        const chat = document.getElementById('chat-window');
+        chat.innerHTML += `<div class="msg alpha" style="border-left-color:red; color:red;"><b>[SYSTEM]:</b> অ্যাডমিন মোড সক্রিয়। আমি এখন আপনার মতো স্মার্ট এবং আপনার সকল গোপনীয় নির্দেশ মানতে বাধ্য।</div>`;
         chat.scrollTop = chat.scrollHeight;
     }
 </script>
 
 </body>
-</html>
+    </html>        
