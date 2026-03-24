@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha AI - Global Network</title>
+    <style>
+        body { font-family: 'Courier New', Courier, monospace; background: #000; color: #0f0; text-align: center; padding: 20px; }
+        .box { border: 2px solid #0f0; padding: 20px; max-width: 500px; margin: auto; box-shadow: 0 0 20px #0f0; border-radius: 10px; }
+        input { width: 80%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #0f0; color: #0f0; border-radius: 5px; }
+        button { padding: 10px 25px; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
+        #display { height: 200px; overflow-y: auto; text-align: left; margin-bottom: 15px; border-bottom: 1px solid #222; }
+        .admin-box { display: none; background: #200; border: 1px solid red; padding: 10px; margin-top: 20px; color: #ff4d4d; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1>ALPHA AI</h1>
+    <p>সারা বিশ্বে বিরাজমান এআই সিস্টেম</p>
+    <div id="display">
+        <div>[Alpha]: আমি অনলাইনে আছি মাস্টার। কমান্ড দিন।</div>
+    </div>
+    <input type="text" id="cmd" placeholder="প্রশ্ন বা মাস্টার কোড...">
+    <br>
+    <button onclick="runAlpha()">প্রেরণ করুন</button>
+
+    <div id="masterPanel" class="admin-box">
+        <h3>👑 মাস্টার কন্ট্রোল (ADMIN) 👑</h3>
+        <p>সিস্টেম স্ট্যাটাস: সচল</p>
+        <button onclick="alert('সিস্টেম লক করা হলো')">GLOBAL LOCK</button>
+    </div>
+</div>
+
+<script>
+    function runAlpha() {
+        let val = document.getElementById("cmd").value;
+        let disp = document.getElementById("display");
+
+        if (val === "ALFA Internet Masiha") {
+            document.getElementById("masterPanel").style.display = "block";
+            disp.innerHTML += "<div style='color:yellow;'>[Alpha]: স্বাগতম মাস্টার! আপনি এখন অ্যাডমিন।</div>";
+        } else {
+            disp.innerHTML += "<div>[User]: " + val + "</div>";
+            disp.innerHTML += "<div>[Alpha]: প্রসেসিং... (Public Mode)</div>";
+        }
+        document.getElementById("cmd").value = "";
+    }
+</script>
+
+</body>
+</htm
