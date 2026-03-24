@@ -1,53 +1,74 @@
-
 <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alpha AI - Global Network</title>
+    <title>Alpha AI - The Global Intelligence</title>
     <style>
-        body { font-family: 'Courier New', Courier, monospace; background: #000; color: #0f0; text-align: center; padding: 20px; }
-        .box { border: 2px solid #0f0; padding: 20px; max-width: 500px; margin: auto; box-shadow: 0 0 20px #0f0; border-radius: 10px; }
-        input { width: 80%; padding: 12px; margin: 10px 0; background: #111; border: 1px solid #0f0; color: #0f0; border-radius: 5px; }
-        button { padding: 10px 25px; background: #0f0; color: #000; border: none; cursor: pointer; font-weight: bold; border-radius: 5px; }
-        #display { height: 200px; overflow-y: auto; text-align: left; margin-bottom: 15px; border-bottom: 1px solid #222; }
-        .admin-box { display: none; background: #200; border: 1px solid red; padding: 10px; margin-top: 20px; color: #ff4d4d; }
+        :root { --main: #00ffcc; --bg: #050505; }
+        body { background: var(--bg); color: var(--main); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        header { padding: 20px; border-bottom: 2px solid var(--main); text-align: center; box-shadow: 0 0 20px var(--main); background: #000; }
+        #chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .msg { padding: 12px 18px; border-radius: 15px; max-width: 80%; line-height: 1.6; font-size: 16px; border: 1px solid #333; }
+        .alpha { align-self: flex-start; background: #001a1a; border-color: var(--main); box-shadow: 0 0 10px #004444; }
+        .user { align-self: flex-end; background: #111; border-color: #555; color: #fff; }
+        .input-area { padding: 20px; background: #000; display: flex; gap: 10px; border-top: 1px solid #222; }
+        input { flex: 1; background: #111; border: 1px solid var(--main); color: #fff; padding: 12px; border-radius: 8px; outline: none; }
+        button { background: var(--main); color: #000; border: none; padding: 10px 25px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+        .master-mode { border-color: #ff0000 !important; color: #ff0000 !important; box-shadow: 0 0 20px #ff0000 !important; }
     </style>
 </head>
 <body>
 
-<div class="box">
-    <h1>ALPHA AI</h1>
-    <p>সারা বিশ্বে বিরাজমান এআই সিস্টেম</p>
-    <div id="display">
-        <div>[Alpha]: আমি অনলাইনে আছি মাস্টার। কমান্ড দিন।</div>
-    </div>
-    <input type="text" id="cmd" placeholder="প্রশ্ন বা মাস্টার কোড...">
-    <br>
-    <button onclick="runAlpha()">প্রেরণ করুন</button>
+<header>
+    <h1 id="title">ALPHA AI SYSTEM</h1>
+    <small id="status">ACCESS: PUBLIC</small>
+</header>
 
-    <div id="masterPanel" class="admin-box">
-        <h3>👑 মাস্টার কন্ট্রোল (ADMIN) 👑</h3>
-        <p>সিস্টেম স্ট্যাটাস: সচল</p>
-        <button onclick="alert('সিস্টেম লক করা হলো')">GLOBAL LOCK</button>
-    </div>
+<div id="chat-box" id="chatBox">
+    <div class="msg alpha">স্বাগতম! আমি আলফা। আমি আপনাকে কীভাবে সাহায্য করতে পারি?</div>
+</div>
+
+<div class="input-area">
+    <input type="text" id="userInput" placeholder="আপনার প্রশ্ন বা মাস্টার কোড দিন...">
+    <button onclick="askAlpha()">SEND</button>
 </div>
 
 <script>
-    function runAlpha() {
-        let val = document.getElementById("cmd").value;
-        let disp = document.getElementById("display");
+    let isMaster = false;
 
-        if (val === "ALFA Internet Masiha") {
-            document.getElementById("masterPanel").style.display = "block";
-            disp.innerHTML += "<div style='color:yellow;'>[Alpha]: স্বাগতম মাস্টার! আপনি এখন অ্যাডমিন।</div>";
+    function askAlpha() {
+        const input = document.getElementById('userInput');
+        const chat = document.getElementById('chat-box');
+        const text = input.value.trim();
+        
+        if(!text) return;
+
+        chat.innerHTML += `<div class="msg user">${text}</div>`;
+
+        if (text === "ALFA Internet Masiha") {
+            isMaster = true;
+            document.getElementById('title').innerText = "👑 ALPHA MASTER PANEL";
+            document.getElementById('title').classList.add('master-mode');
+            document.getElementById('status').innerText = "STATUS: ADMIN ACTIVATED";
+            document.getElementById('status').style.color = "red";
+            addReply("স্বাগতম মসীহা! আপনার বিশেষ ক্ষমতা এবং স্মার্ট ইন্টেলিজেন্স সক্রিয় করা হয়েছে। আদেশ করুন।");
         } else {
-            disp.innerHTML += "<div>[User]: " + val + "</div>";
-            disp.innerHTML += "<div>[Alpha]: প্রসেসিং... (Public Mode)</div>";
+            setTimeout(() => {
+                let reply = isMaster ? "জি মাস্টার, আমি আপনার জন্য তথ্য বিশ্লেষণ করছি..." : "আমি আপনার প্রশ্নটি নিয়ে কাজ করছি। একটু অপেক্ষা করুন।";
+                addReply(reply);
+            }, 800);
         }
-        document.getElementById("cmd").value = "";
+        input.value = '';
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function addReply(txt) {
+        const chat = document.getElementById('chat-box');
+        chat.innerHTML += `<div class="msg alpha ${isMaster ? 'master-mode' : ''}"><b>[Alpha]:</b> ${txt}</div>`;
+        chat.scrollTop = chat.scrollHeight;
     }
 </script>
 
 </body>
-</htm
+</html>
